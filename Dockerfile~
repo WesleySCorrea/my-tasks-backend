@@ -1,15 +1,21 @@
 # ---------- BUILD STAGE ----------
 FROM maven:3.9-eclipse-temurin-21 AS build
 
+# diretório da aplicação
 WORKDIR /app
 
+# copia apenas pom primeiro (melhora cache)
 COPY pom.xml .
 
+# baixa dependências
 RUN mvn dependency:go-offline
 
+# copia o resto do projeto
 COPY src ./src
 
+# builda o jar
 RUN mvn clean package -DskipTests
+
 
 # ---------- RUNTIME STAGE ----------
 FROM eclipse-temurin:21-jre
@@ -18,6 +24,8 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
+# porta da aplicação
 EXPOSE 8080
 
+# comando para iniciar
 ENTRYPOINT ["java","-jar","app.jar"]
