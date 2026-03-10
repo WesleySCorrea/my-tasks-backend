@@ -1,0 +1,58 @@
+package com.wsc.my_tasks_backend.controller;
+
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import com.wsc.my_tasks_backend.service.AuthService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.wsc.my_tasks_backend.DTO.auth.request.LoginRequest;
+import com.wsc.my_tasks_backend.DTO.auth.response.LoginResponse;
+import com.wsc.my_tasks_backend.DTO.auth.request.LoginRefreshRequest;
+import com.wsc.my_tasks_backend.DTO.auth.request.ForgotPasswordRequest;
+import com.wsc.my_tasks_backend.DTO.auth.request.ResetPasswordRequest;
+
+@RestController
+@RequestMapping(value = "auth")
+public class AuthController {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    @PostMapping(value = "login")
+    public ResponseEntity<LoginResponse> login (@RequestBody @Valid LoginRequest request) {
+
+        LoginResponse responose = authService.login(request);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(responose);
+    }
+
+    @PostMapping(value = "refresh")
+    public ResponseEntity<LoginResponse> loginRefresh(@RequestBody @Valid LoginRefreshRequest request) {
+
+        LoginResponse responose = authService.loginWithRefresh(request);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(responose);
+    }
+
+    @PostMapping(value = "forgot-password")
+    public ResponseEntity<Void> forgotPassword (@RequestBody @Valid ForgotPasswordRequest request) {
+
+        authService.forgotPassword(request);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "reset-password")
+    public ResponseEntity<Void> resetPassword (@RequestBody @Valid ResetPasswordRequest request) {
+
+        authService.resetPassword(request);
+
+        return ResponseEntity.ok().build();
+    }
+}
