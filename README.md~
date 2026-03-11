@@ -21,10 +21,9 @@ Esse projeto utiliza as seguintes tecnologias:
 
 A arquitetura do projeto é baseada na estrutura MVC (Model-View-Controller).
 
-- **Controller** → Recebe requisições HTTP
-- **Service** → Contém as regras de negócio
-- **Repository** → Responsável pelo acesso ao banco de dados
-- **Database** → PostgreSQL
+```
+Controller → Service → Repository → Database
+```
 
 ## 🔧 Variaveis de Ambiente
 

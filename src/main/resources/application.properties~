@@ -23,7 +23,7 @@ spring.jpa.properties.hibernate.format_sql=${JPA_FORMAT_SQL:false}
 # CORS
 # ===============================
 
-cors.allowed-origins=${CORS_ALLOWED_ORIGINS:http://localhost:4200/}
+cors.allowed-origins=${CORS_ALLOWED_ORIGINS:https://wsc-mytasks.netlify.app}
 
 # ===============================
 # TIMEZONE
